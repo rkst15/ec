@@ -1,6 +1,6 @@
 <?php
 require_once "Database.php";
-class Product extends Database
+class Deliver extends Database
 {
 
     //get all product
@@ -40,7 +40,7 @@ class Product extends Database
             echo $result;
             if ($result) {
                 // $_SESSION['msg'] = "<div class='alert alert-success' role='alert'>New account is created successfully!</div>";
-                header("location:product.php");
+                header("location:del_product.php");
             } else {
                 die("Conection error: " . $this->conn->connect_error);
             }
@@ -52,9 +52,9 @@ class Product extends Database
     public function editProduct($id,$userid,$categoryid,$productname,$productprice)
     {
         $sql = "UPDATE product SET user_id = '$userid',category_id = '$categoryid', product_name = '$productname', product_price = '$productprice' WHERE product_id = $id";
-        $result = $this->conn->query($sql) or die("conection error: " . $this->conn->connect_error);
+        $result = $this->conn->query($sql) or die("conection error: " . $this->conn->error);
         if ($result) {
-            header("location:product.php");
+            header("location:del_product.php");
         }
     }
 
@@ -64,7 +64,7 @@ class Product extends Database
         $sql = "DELETE FROM product WHERE product_id = $id";
         $result = $this->conn->query($sql) or die("conection error: " . $this->conn->connect_error);
         if ($result) {
-            header("location:product.php");
+            header("location:del_product.php");
         }
 
     }

@@ -1,5 +1,5 @@
 <?php
-require_once "classes/Order.php";
+require_once "../classes/Order.php";
 $order = new Order;
 $result = $order->getOrderUser();
 ?>
@@ -9,7 +9,7 @@ $result = $order->getOrderUser();
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>product</title>
+    <title>deliver</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
@@ -45,7 +45,7 @@ if (!$_SESSION['user_id'] > 0) {
                     <a class="nav-link" href="deliverer.php">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link" href="del_product.php">product</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
@@ -69,6 +69,7 @@ if (!$_SESSION['user_id'] > 0) {
                 <thead>
                     <tr>
                         <th>Product name</th>
+                        <th>Name</th>
                         <th>Address</th>
                         <th>Quantity</th>
                         <th>Action</th>
@@ -77,17 +78,19 @@ if (!$_SESSION['user_id'] > 0) {
                 <tbody>
                     <?php
                         foreach ($result as $key => $row) {
-                            $id = $row['user_id'];
+                            $id = $row['order_id'];
                             $name = $row['product_name'];
+                            $firstname = $row['firstname'];
+                            $lastname = $row['lastname'];
                             $address = $row['address'];
                             $quantity = $row['order_quantity'];
                             echo "<tr>";
                             echo "<td>" . $name . "</td>";
+                            echo "<td>" . $firstname . " " .  $lastname . "</td>";
                             echo "<td>" . $address . "</td>";
                             echo "<td>" . $quantity . "</td>";
                             echo "<td>";
-                            echo "<a href='ordereditem.php?id=$id' class='btn btn-info'>Show items</a>";
-                            echo "<a href='OrderAction.php?action=delete&id=$id' class='btn btn-danger'>Confirm</a>";
+                            echo "<a href='../orderAction.php?action=confirm&id=$id' class='btn btn-outline-success'>Confirm</a>";
                             echo "</td>";
                             echo "</tr>";
                         }

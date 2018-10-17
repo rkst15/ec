@@ -22,6 +22,12 @@ if(isset($_POST['accept'])){
     $order->acceptOrder($address,$userid);
 }
 
+//confirm item
+elseif ($_GET['action'] == 'confirm') {
+    $id = $_GET['id'];
+    $order->confirmOrder($id);
+}
+
 //delete order from cart
 elseif ($_GET['action'] == 'delete') {
     $id = $_GET['id'];
