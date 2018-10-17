@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2018 年 10 月 17 日 05:07
+-- Generation Time: 2018 年 10 月 17 日 06:53
 -- サーバのバージョン： 10.1.34-MariaDB
 -- PHP Version: 5.6.37
 
@@ -66,7 +66,9 @@ CREATE TABLE `orders` (
 
 INSERT INTO `orders` (`order_id`, `user_id`, `product_id`, `order_price`, `order_quantity`, `order_status`, `deliver_status`, `address`) VALUES
 (21, 2, 1, 500, 2, 'done', 'done', 'japan'),
-(22, 2, 3, 200, 1, 'done', 'yet', 'usa');
+(22, 2, 3, 200, 1, 'done', 'done', 'usa'),
+(24, 2, 3, 200, 1, 'done', 'done', 'usa'),
+(26, 2, 5, 350, 1, 'yet', 'yet', '');
 
 -- --------------------------------------------------------
 
@@ -88,9 +90,9 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`product_id`, `user_id`, `category_id`, `product_name`, `product_price`, `product_quantity`) VALUES
-(1, 1, 23, 'Nike Air-max', 500, 10),
-(3, 1, 25, 'sandals', 200, 10),
-(5, 6, 23, 'Football shoes', 350, 10);
+(1, 1, 23, 'Nike Air-max', 500, 8),
+(3, 1, 25, 'sandals', 200, 9),
+(5, 6, 23, 'Football shoes', 350, 9);
 
 -- --------------------------------------------------------
 
@@ -165,7 +167,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `order_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `product`
