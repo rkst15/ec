@@ -59,7 +59,7 @@ if (!$_SESSION['user_id'] > 0) {
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <a class="nav-link btn btn-danger" href="logout.php">Log out</a>
+                <a class="nav-link btn btn-danger" href="../logout.php">Log out</a>
             </form>
         </div>
     </nav>

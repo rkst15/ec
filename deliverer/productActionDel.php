@@ -9,7 +9,8 @@ if (isset($_POST['create'])) {
     $categoryid = $_POST['categoryid'];
     $productname = $_POST['productname'];
     $productprice = $_POST['productprice'];
-    $deliver->createProduct($userid,$categoryid,$productname,$productprice);
+    $productquantity = $_POST['productquantity'];
+    $deliver->createProduct($userid, $categoryid, $productname, $productprice, $productquantity);
 }
 
 //edit product
@@ -19,7 +20,8 @@ if (isset($_POST['edit'])) {
     $categoryid = $_POST['categoryid'];
     $productname = $_POST['productname'];
     $productprice = $_POST['productprice'];
-    $deliver->editProduct($id,$userid,$categoryid,$productname,$productprice);
+    $productquantity = $_POST['productquantity'];
+    $deliver->editProduct($id, $userid, $categoryid, $productname, $productprice, $productquantity);
 }
 
 //delete product

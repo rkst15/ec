@@ -49,7 +49,7 @@ if (!$_SESSION['user_id'] > 0) {
                             <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
                             <input type="text" name="productname" class="form-control" id="name" placeholder="abcd"
                                 required autofocus>
-                                <input type="hidden" name="userid" value="<?php echo $_SESSION['user_id']; ?>">
+                            <input type="hidden" name="userid" value="<?php echo $_SESSION['user_id']; ?>">
                         </div>
                     </div>
                 </div>
@@ -84,6 +84,27 @@ if (!$_SESSION['user_id'] > 0) {
             </div>
             <div class="row">
                 <div class="col-md-3 field-label-responsive">
+                    <label for="name">product quantity</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+                            <input type="number" name="productquantity" class="form-control" id="name" placeholder="100"
+                                required autofocus>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-control-feedback">
+                        <span class="text-danger align-middle">
+                            <!-- Put name validation error messages here -->
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
                     <label for="name">Category</label>
                 </div>
                 <div class="col-md-6">
@@ -91,7 +112,7 @@ if (!$_SESSION['user_id'] > 0) {
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                             <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
                             <select name="categoryid" id="" class="form-control">
-                            <?php
+                                <?php
                                 foreach ($result as $key => $row) {
                                     $id = $row['category_id'];
                                     $name = $row['category_name'];

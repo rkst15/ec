@@ -9,6 +9,7 @@ $row = $deliver->getSpecificProduct($id);
 $userid = $row['user_id'];
 $productname = $row['product_name'];
 $productprice = $row['product_price'];  
+$productquantity = $row['product_quantity'];  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -89,6 +90,28 @@ $productprice = $row['product_price'];
 
             <div class="row">
                 <div class="col-md-3 field-label-responsive">
+                    <label for="name">Category quantity</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+                            <input type="number" name="productquantity" class="form-control" id="name" value="<?php echo $productquantity; ?>"
+                                required autofocus>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-control-feedback">
+                        <span class="text-danger align-middle">
+                            <!-- Put name validation error messages here -->
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
                     <label for="email">Category</label>
                 </div>
                 <div class="col-md-6">
@@ -96,7 +119,7 @@ $productprice = $row['product_price'];
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                             <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
                             <select name="categoryid" id="" class="form-control">
-                            <?php
+                                <?php
                                 foreach ($result as $key => $row) {
                                     $id = $row['category_id'];
                                     $name = $row['category_name'];

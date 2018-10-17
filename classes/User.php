@@ -124,7 +124,7 @@ class User extends Database
                 } elseif ($status == "user") {
                     header("location:index.php");
                 } else {
-                    header("location:deliverer.php");
+                    header("location:deliverer/deliverer.php");
                 }
             } else {
                 $sql = "SELECT * FROM users WHERE email = '$useremail' AND password = '$newpass' AND status = '$status'";

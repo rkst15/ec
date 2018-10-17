@@ -25,7 +25,7 @@ class Product extends Database
     }
 
     //create product from Admin
-    public function createProduct($userid,$categoryid,$productname,$productprice)
+    public function createProduct($userid, $categoryid, $productname, $productprice, $productquantity)
     {
         $sql = "SELECT * FROM product WHERE product_name = '$productname' AND product_price = '$productprice'";
         $result = $this->conn->query($sql);
@@ -35,7 +35,7 @@ class Product extends Database
             // $_SESSION['msg'] = $msg;
             header("location:product.php");
         } else {
-            $sql = "INSERT INTO product (user_id,category_id,product_name,product_price) VALUES('$userid','$categoryid','$productname','$productprice')";
+            $sql = "INSERT INTO product (user_id,category_id,product_name,product_price,product_quantity) VALUES('$userid','$categoryid','$productname','$productprice','$productquantity')";
             $result = $this->conn->query($sql);
             echo $result;
             if ($result) {
@@ -49,9 +49,9 @@ class Product extends Database
     }
 
     //edit product
-    public function editProduct($id,$userid,$categoryid,$productname,$productprice)
+    public function editProduct($id, $userid, $categoryid, $productname, $productprice, $productquantity)
     {
-        $sql = "UPDATE product SET user_id = '$userid',category_id = '$categoryid', product_name = '$productname', product_price = '$productprice' WHERE product_id = $id";
+        $sql = "UPDATE product SET user_id = '$userid',category_id = '$categoryid', product_name = '$productname', product_price = '$productprice' , product_quantity = '$productquantity' WHERE product_id = $id";
         $result = $this->conn->query($sql) or die("conection error: " . $this->conn->connect_error);
         if ($result) {
             header("location:product.php");

@@ -7,6 +7,7 @@ $userid = $row['user_id'];
 $productid = $row['product_id'];
 $productname = $row['product_name'];
 $productprice = $row['product_price']; 
+$productquantity = $row['product_quantity']; 
 session_start();
 if (!$_SESSION['user_id'] > 0) {
     header("location:login.php");
@@ -234,6 +235,7 @@ if (!$_SESSION['user_id'] > 0) {
 								<input type="hidden" name="userid" value="<?php echo $_SESSION['user_id'];?>">
 								<input type="hidden" name="productid" value="<?php echo $productid;?>">
 								<input type="hidden" name="productprice" value="<?php echo $productprice;?>">
+								<input type="hidden" name="productquantity" value="<?php echo $productquantity;?>">
 								<input type="hidden" name="orderstatus" value="yet" >
 								<input type="hidden" name="deliverstatus" value="yet" >
 								<input type="hidden" name="id" value="<?php echo $id;?>">

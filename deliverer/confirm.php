@@ -1,15 +1,16 @@
 <?php
-require_once "../classes/Category.php";
-require_once "../classes/Product.php";
+require_once "../classes/Order.php";
 $id = $_GET['id'];
-$category = new Category;
-$product = new Product;
-$result = $category->getCategory();
-$row = $product->getSpecificProduct($id);
-$userid = $row['user_id'];
+$order = new Order;
+$row = $order->getSpecificOrderUser($id);
+$productid = $row['product_id'];
 $productname = $row['product_name'];
+$firstname = $row['firstname'];
+$lastname = $row['lastname'];
+$address = $row['address'];
 $productprice = $row['product_price'];  
 $productquantity = $row['product_quantity'];  
+$orderquantity = $row['order_quantity'];  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,11 +33,11 @@ $productquantity = $row['product_quantity'];
 
 <body>
     <div class="container">
-        <form class="form-horizontal" role="form" method="post" action="productAction.php">
+        <form class="form-horizontal" role="form" method="post" action="../orderAction.php">
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <h2>Edit Product</h2>
+                    <h2>Confirm</h2>
                     <hr>
                 </div>
             </div>
@@ -52,7 +53,26 @@ $productquantity = $row['product_quantity'];
                                 required autofocus>
                             <input type="hidden" name="id" class="form-control" id="name" value="<?php echo $id; ?>"
                                 required autofocus>
-                            <input type="hidden" name="userid" class="form-control" id="name" value="<?php echo $userid; ?>"
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-control-feedback">
+                        <span class="text-danger align-middle">
+                            <!-- Put name validation error messages here -->
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
+                    <label for="name">Name</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+                            <input type="text" name="name" class="form-control" id="name" value="<?php echo $firstname . " " . $lastname; ?>"
                                 required autofocus>
                         </div>
                     </div>
@@ -68,7 +88,29 @@ $productquantity = $row['product_quantity'];
 
             <div class="row">
                 <div class="col-md-3 field-label-responsive">
-                    <label for="name">Category price</label>
+                    <label for="name">Address</label>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+                            <input type="text" name="address" class="form-control" id="name" value="<?php echo $address; ?>"
+                                required autofocus>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-control-feedback">
+                        <span class="text-danger align-middle">
+                            <!-- Put name validation error messages here -->
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 field-label-responsive">
+                    <label for="name">Product price</label>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
@@ -76,27 +118,9 @@ $productquantity = $row['product_quantity'];
                             <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
                             <input type="number" name="productprice" class="form-control" id="name" value="<?php echo $productprice; ?>"
                                 required autofocus>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-control-feedback">
-                        <span class="text-danger align-middle">
-                            <!-- Put name validation error messages here -->
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-3 field-label-responsive">
-                    <label for="name">Category quantity</label>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
-                            <input type="number" name="productquantity" class="form-control" id="name" value="<?php echo $productquantity; ?>"
+                            <input type="hidden" name="productquantity" class="form-control" id="name" value="<?php echo $productquantity; ?>"
+                                required autofocus>
+                            <input type="hidden" name="productid" class="form-control" id="name" value="<?php echo $productid; ?>"
                                 required autofocus>
                         </div>
                     </div>
@@ -112,38 +136,32 @@ $productquantity = $row['product_quantity'];
 
             <div class="row">
                 <div class="col-md-3 field-label-responsive">
-                    <label for="email">Category</label>
+                    <label for="name">Order quantity</label>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
-                            <select name="categoryid" id="" class="form-control">
-                                <?php
-                                foreach ($result as $key => $row) {
-                                    $id = $row['category_id'];
-                                    $name = $row['category_name'];
-                                    $status = $row['category_status'];
-                                    echo "<option value='$id'>" . $name . " : " . $status . "</option>";
-                                }
-                            ?>
-                            </select>
+                            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+                            <input type="number" name="orderquantity" class="form-control" id="name" value="<?php echo $orderquantity; ?>"
+                                required autofocus>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-control-feedback">
                         <span class="text-danger align-middle">
-                            <!-- Put e-mail validation error messages here -->
+                            <!-- Put name validation error messages here -->
                         </span>
                     </div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <button type="submit" name="edit" class="btn btn-success"><i class="fa fa-user-plus"></i>
-                        Edit</button>
+                    <button type="submit" name="confirm" class="btn btn-success"><i class="fa fa-user-plus"></i>
+                        Confirm</button>
+                    <a href="deliverer.php" class="btn btn-outline-danger">Cancel</a>
                 </div>
             </div>
         </form>

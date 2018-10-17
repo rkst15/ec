@@ -3,7 +3,7 @@ require_once "Database.php";
 class Order extends Database
 {
     //add to cart
-    public function createOrder($id, $userid, $productid, $productprice, $quantity, $orderstatus, $deliverstatus)
+    public function createOrder($id, $userid, $productid, $productprice, $productquantity, $quantity, $orderstatus, $deliverstatus)
     {
         if ($quantity < 1) {
             header("location:product-detail.php?id=$id");
@@ -11,9 +11,13 @@ class Order extends Database
             $sql = "INSERT INTO orders(user_id,product_id,order_price,order_quantity,order_status,deliver_status) VALUES('$userid','$productid','$productprice','$quantity','$orderstatus','$deliverstatus')";
             $result = $this->conn->query($sql);
             if ($result) {
-                header("location:cart.php");
-            }
-            else{
+                $sum = $productquantity - $quantity;
+                $sql = "UPDATE product SET product_quantity = '$sum' WHERE product_id = '$productid'";
+                $result = $this->conn->query($sql) or die("conection error: " . $this->conn->error);
+                if ($result) {
+                    header("location:cart.php");
+                }
+            } else {
                 die("Conection error: " . $this->conn->error);
             }
         }
@@ -31,7 +35,7 @@ class Order extends Database
         return $rows;
     }
 
-    //get user who ordered 
+    //get user who ordered
     public function getOrderUser()
     {
         $sql = "SELECT * FROM orders INNER JOIN product ON orders.product_id = product.product_id INNER JOIN users ON users.user_id = orders.user_id WHERE order_status = 'done' AND deliver_status = 'yet'";
@@ -43,24 +47,33 @@ class Order extends Database
         return $rows;
     }
 
+    //get specific user who ordered
+    public function getSpecificOrderUser($id)
+    {
+        $sql = "SELECT * FROM orders INNER JOIN product ON orders.product_id = product.product_id INNER JOIN users ON users.user_id = orders.user_id WHERE order_id = '$id'";
+        $result = $this->conn->query($sql) or die("Conection error: " . $this->conn->error);
+        $row = $result->fetch_assoc();
+        return $row;
+    }
+
     //confirm item
     public function confirmOrder($id)
     {
         $sql = "UPDATE orders SET deliver_status = 'done' WHERE order_id = '$id'";
         $result = $this->conn->query($sql) or die("conection error: " . $this->conn->error);
-            if($result){
-                header("location:deliverer.php");
-            }
+        if ($result) {
+            header("location:deliverer/deliverer.php");
+        }
     }
 
     //accept order
-    public function acceptOrder($address,$userid)
+    public function acceptOrder($address, $userid)
     {
         $sql = "UPDATE orders SET order_status = 'done',address = '$address' WHERE order_status = 'yet'";
         $result = $this->conn->query($sql) or die("conection error: " . $this->conn->error);
-            if($result){
-                header("location:order-complete.php");
-            }
+        if ($result) {
+            header("location:order-complete.php");
+        }
     }
 
     //delete order from cart

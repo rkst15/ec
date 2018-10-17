@@ -33,7 +33,8 @@ if (!$_SESSION['user_id'] > 0) {
 ?>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#"><?php echo $_SESSION['username']; ?></a>
+        <a class="navbar-brand" href="#">
+            <?php echo $_SESSION['username']; ?></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -74,6 +75,7 @@ if (!$_SESSION['user_id'] > 0) {
                         <th>ID</th>
                         <th>Product name</th>
                         <th>Product price</th>
+                        <th>Product quantity</th>
                         <th>
                             <a href="product_c.php" class="btn btn-primary">Add Product</a>
                         </th>
@@ -85,10 +87,12 @@ if (!$_SESSION['user_id'] > 0) {
                             $id = $row['product_id'];
                             $name = $row['product_name'];
                             $price = $row['product_price'];
+                            $quantity = $row['product_quantity'];
                             echo "<tr>";
                             echo "<td>" . $id . "</td>";
                             echo "<td>" . $name . "</td>";
                             echo "<td>" . $price . " PHP</td>";
+                            echo "<td>" . $quantity . "</td>";
                             echo "<td>";
                             echo "<a href='product_e.php?id=$id' class='btn btn-info'>Edit</a>";
                             echo "<a href='productAction.php?action=delete&id=$id' class='btn btn-danger'>Delete</a>";

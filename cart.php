@@ -200,8 +200,10 @@ if (!$_SESSION['user_id'] > 0) {
                             echo "</div>";
                             echo "</div>";
                             echo "<div class='one-eight text-center'>";
-                            echo "<div class ='display-tc'>";
-                            echo "<a href='orderAction.php?action=delete&id=$id' class='closed'></a>";
+                            echo "<form method='post' action='orderAction.php'>";
+							echo "<input type='hidden' name='productquantity' value='$productquantity'";
+							echo "<input type='hidden' name='quantity' value='$quantity'";
+							echo "<button class='closed' type='submit' name='delete'><a class='closed'></a></button>";
                             echo "</div>";
                             echo "</div>";
                             echo "</div>";
