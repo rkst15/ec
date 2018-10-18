@@ -1,3 +1,15 @@
+<?php
+require_once "classes/Order.php";
+$order = new Order;
+session_start();
+if (!$_SESSION['user_id'] > 0) {
+    header("location:login.php");
+    $_SESSION['username'];
+    $_SESSION['user_id'];
+}
+$id = $_SESSION['user_id'];
+$result = $order->getOrderCart($id);
+?>
 <!DOCTYPE HTML>
 <html>
 
@@ -66,17 +78,14 @@
 								<li class="has-dropdown">
 									<a href="men.php">Men</a>
 									<ul class="dropdown">
-										<li><a href="product-detail.php">Product Detail</a></li>
 										<li><a href="cart.php">Shopping Cart</a></li>
-										<li><a href="checkout.php">Checkout</a></li>
-										<li><a href="order-complete.php">Order Complete</a></li>
 										<li><a href="add-to-wishlist.php">Wishlist</a></li>
 									</ul>
 								</li>
 								<li><a href="women.php">Women</a></li>
 								<li class="active"><a href="about.php">About</a></li>
 								<li><a href="contact.php">Contact</a></li>
-								<li class="cart"><a href="cart.php"><i class="icon-shopping-cart"></i> Cart [0]</a></li>
+								<li class="cart"><a href="cart.php"><i class="icon-shopping-cart"></i> Cart [<?php echo count($result); ?>]</a></li>
 							</ul>
 						</div>
 					</div>

@@ -1,3 +1,15 @@
+<?php
+require_once "classes/Order.php";
+$order = new Order;
+session_start();
+if (!$_SESSION['user_id'] > 0) {
+    header("location:login.php");
+    $_SESSION['username'];
+    $_SESSION['user_id'];
+}
+$id = $_SESSION['user_id'];
+$result = $order->getOrderCart($id);
+?>
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -63,11 +75,8 @@
 								<li><a href="index.php">Home</a></li>
 								<li class="has-dropdown">
 									<a href="men.php">Men</a>
-									<ul class="dropdown active">
-										<li><a href="product-detail.php">Product Detail</a></li>
+									<ul class="dropdown">
 										<li><a href="cart.php">Shopping Cart</a></li>
-										<li><a href="checkout.php">Checkout</a></li>
-										<li><a href="order-complete.php">Order Complete</a></li>
 										<li><a href="add-to-wishlist.php">Wishlist</a></li>
 									</ul>
 								</li>
@@ -75,7 +84,7 @@
 								<li><a href="blog.php">Blog</a></li>
 								<li><a href="about.php">About</a></li>
 								<li><a href="contact.php">Contact</a></li>
-								<li class="cart"><a href="cart.php"><i class="icon-shopping-cart"></i> Cart [0]</a></li>
+								<li class="cart"><a href="cart.php"><i class="icon-shopping-cart"></i> Cart [<?php echo count($result); ?>]</a></li>
 							</ul>
 						</div>
 					</div>
@@ -139,7 +148,7 @@
 				<div class="row">
 					<div class="col-sm-10 offset-sm-1 text-center">
 						<p class="icon-addcart"><span><i class="icon-check"></i></span></p>
-						<h2 class="mb-4">Thank you for purchasing, Your order is complete</h2>
+						<h2 class="mb-4">Thank you for purchasing "<?php echo $_SESSION['username'];?>", Your order is complete</h2>
 						<p>
 							<a href="index.php"class="btn btn-primary btn-outline-primary">Home</a>
 							<a href="shop.php"class="btn btn-primary btn-outline-primary"><i class="icon-shopping-cart"></i> Continue Shopping</a>

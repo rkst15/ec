@@ -1,5 +1,8 @@
 <?php
-    require_once "../classes/User.php";
+require_once "../classes/User.php";
+require_once "../classes/Order.php";
+$order = new Order;
+$result = $order->getOrderAll();
 ?>
 <!DOCTYPE html>
 <html>
@@ -22,6 +25,42 @@
     <?php
     require_once "navbar.php";
     ?>
-    
+    <div class="container">
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Product name</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Quantity</th>
+                        <th>Deliver Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        foreach ($result as $key => $row) {
+                            $id = $row['order_id'];
+                            $name = $row['product_name'];
+                            $firstname = $row['firstname'];
+                            $lastname = $row['lastname'];
+                            $address = $row['address'];
+                            $quantity = $row['order_quantity'];
+                            $status = $row['deliver_status'];
+                            echo "<tr>";
+                            echo "<td>" . $id . "</td>";
+                            echo "<td>" . $name . "</td>";
+                            echo "<td>" . $firstname . " " .  $lastname . "</td>";
+                            echo "<td>" . $address . "</td>";
+                            echo "<td>" . $quantity . "</td>";
+                            echo "<td>" . $status . "</td>";
+                            echo "</tr>";
+                        }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>

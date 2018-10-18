@@ -25,8 +25,8 @@ class User extends Database
                     $_SESSION['msg'] = "<div class='alert alert-success' role='alert'>New account is created successfully!</div>";
                     $_SESSION['id'] = $id;
                     $_SESSION['username'] = $username;
-                    if ($status == "admin") {
-                        header("location:admin/admin_home.php");
+                    if ($status == "deliverer") {
+                        header("location:deliverer/deliverer.php");
                     } else {
                         header("location:index.php");
                     }

@@ -30,7 +30,10 @@ elseif ($_GET['action'] == 'confirm') {
 }
 
 //delete order from cart
-elseif ($_GET['action'] == 'delete') {
-    $id = $_GET['id'];
-    $order->deleteOrder($id);
+elseif (isset($_POST['delete'])) {
+    $id = $_POST['id'];
+    $productid = $_POST['productid'];
+    $quantity = $_POST['quantity'];
+    $productquantity = $_POST['productquantity'];
+    $order->deleteOrder($id, $productid, $quantity, $productquantity);
 }

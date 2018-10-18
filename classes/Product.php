@@ -25,7 +25,7 @@ class Product extends Database
     }
 
     //create product from Admin
-    public function createProduct($userid, $categoryid, $productname, $productprice, $productquantity)
+    public function createProduct($userid, $categoryid, $productname, $productprice, $productquantity,$image)
     {
         $sql = "SELECT * FROM product WHERE product_name = '$productname' AND product_price = '$productprice'";
         $result = $this->conn->query($sql);
@@ -36,25 +36,41 @@ class Product extends Database
             header("location:product.php");
         } else {
             $sql = "INSERT INTO product (user_id,category_id,product_name,product_price,product_quantity) VALUES('$userid','$categoryid','$productname','$productprice','$productquantity')";
-            $result = $this->conn->query($sql);
-            echo $result;
-            if ($result) {
-                // $_SESSION['msg'] = "<div class='alert alert-success' role='alert'>New account is created successfully!</div>";
-                header("location:product.php");
-            } else {
-                die("Conection error: " . $this->conn->connect_error);
-            }
+            $result = $this->conn->query($sql) or die("Conection error: " . $this->conn->error);
+            if($result){
+                date_default_timezone_get();
+                $data = date('Y_m_d',time());
+                $directory = "../images/products/";
+                $target_file = $directory . basename($data . "_" . $_FILES['image']['name']);
+                $id = mysqli_insert_id($this->conn);
+                $sql = "INSERT INTO images (product_id,image_1) VALUES('$id','$target_file')";
+                $result = $this->conn->query($sql);
+                if ($result) {
+                    move_uploaded_file($_FILES['image']['tmp_name'],$target_file);
+                    header("location:product.php");
+                } else {
+                    die("Conection error: " . $this->conn->error);
+                }
         }
-
+    }
     }
 
     //edit product
     public function editProduct($id, $userid, $categoryid, $productname, $productprice, $productquantity)
     {
         $sql = "UPDATE product SET user_id = '$userid',category_id = '$categoryid', product_name = '$productname', product_price = '$productprice' , product_quantity = '$productquantity' WHERE product_id = $id";
-        $result = $this->conn->query($sql) or die("conection error: " . $this->conn->connect_error);
-        if ($result) {
-            header("location:product.php");
+        $result = $this->conn->query($sql) or die("conection error: " . $this->conn->error);
+        if($result){
+            date_default_timezone_get();
+            $data = date('Y_m_d',time());
+            $directory = "../images/products/";
+            $target_file = $directory . basename($data . "_" . $_FILES['image']['name']);
+            $sql = "UPDATE images SET image_1 = '$target_file' WHERE product_id = '$id'";
+            $result = $this->conn->query($sql);
+            if ($result) {
+                move_uploaded_file($_FILES['image']['tmp_name'],$target_file);
+                header("location:product.php");
+            }
         }
     }
 
@@ -62,10 +78,13 @@ class Product extends Database
     public function deleteProduct($id)
     {
         $sql = "DELETE FROM product WHERE product_id = $id";
-        $result = $this->conn->query($sql) or die("conection error: " . $this->conn->connect_error);
+        $result = $this->conn->query($sql) or die("conection error: " . $this->conn->error);
         if ($result) {
-            header("location:product.php");
+            $sql = "DELETE FROM images WHERE product_id = $id";
+            $result = $this->conn->query($sql) or die("conection error: " . $this->conn->error);
+            if($result){
+                header("location:product.php");
+            }
         }
-
     }
 }

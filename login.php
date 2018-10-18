@@ -38,7 +38,7 @@
                         </select>
                     </div>
                     <div class="forgot">
-                        <a href="reset.html">Forgot password?</a>
+                        <a href="create.php">Don't you have your account?</a>
                     </div>
                     <button type="submit" class="btn btn-primary" name="login">Login</button>
                 </form>

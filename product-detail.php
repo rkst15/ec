@@ -14,6 +14,10 @@ if (!$_SESSION['user_id'] > 0) {
     $_SESSION['username'];
     $_SESSION['user_id'];
 }
+require_once "classes/Order.php";
+$order = new Order;
+$id = $_SESSION['user_id'];
+$res = $order->getOrderCart($id);
 ?>
 
 <!DOCTYPE HTML>
@@ -81,20 +85,17 @@ if (!$_SESSION['user_id'] > 0) {
 						<div class="col-sm-12 text-left menu-1">
 							<ul>
 								<li><a href="index.php">Home</a></li>
-								<li class="has-dropdown active">
+								<li class="has-dropdown">
 									<a href="men.php">Men</a>
 									<ul class="dropdown">
-										<li><a href="product-detail.php">Product Detail</a></li>
 										<li><a href="cart.php">Shopping Cart</a></li>
-										<li><a href="checkout.php">Checkout</a></li>
-										<li><a href="order-complete.php">Order Complete</a></li>
 										<li><a href="add-to-wishlist.php">Wishlist</a></li>
 									</ul>
 								</li>
 								<li><a href="women.php">Women</a></li>
 								<li><a href="about.php">About</a></li>
 								<li><a href="contact.php">Contact</a></li>
-								<li class="cart"><a href="cart.php"><i class="icon-shopping-cart"></i> Cart [0]</a></li>
+								<li class="cart"><a href="cart.php"><i class="icon-shopping-cart"></i> Cart [<?php echo count($res); ?>]</a></li>
 							</ul>
 						</div>
 					</div>
@@ -220,32 +221,32 @@ if (!$_SESSION['user_id'] > 0) {
 								</div>
 							</div>
 							<form action="orderAction.php" method="post">
-							<div class="input-group mb-4">
-								<span class="input-group-btn">
-									<button type="button" class="quantity-left-minus btn" data-type="minus" data-field="">
-										<i class="icon-minus2"></i>
-									</button>
-								</span>
-								<input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100">
-								<span class="input-group-btn ml-1">
-									<button type="button" class="quantity-right-plus btn" data-type="plus" data-field="">
-										<i class="icon-plus2"></i>
-									</button>
-								</span>
-								<input type="hidden" name="userid" value="<?php echo $_SESSION['user_id'];?>">
-								<input type="hidden" name="productid" value="<?php echo $productid;?>">
-								<input type="hidden" name="productprice" value="<?php echo $productprice;?>">
-								<input type="hidden" name="productquantity" value="<?php echo $productquantity;?>">
-								<input type="hidden" name="orderstatus" value="yet" >
-								<input type="hidden" name="deliverstatus" value="yet" >
-								<input type="hidden" name="id" value="<?php echo $id;?>">
-							</div>
-							<div class="row">
-								<div class="col-sm-12 text-center">
-									<p class="addtocart"><button type="submit" name="addcart" class="btn btn-primary btn-addtocart"><i class="icon-shopping-cart"></i>
-											Add to Cart</button></p>
+								<div class="input-group mb-4">
+									<span class="input-group-btn">
+										<button type="button" class="quantity-left-minus btn" data-type="minus" data-field="">
+											<i class="icon-minus2"></i>
+										</button>
+									</span>
+									<input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="<?php echo $productquantity; ?>">
+									<span class="input-group-btn ml-1">
+										<button type="button" class="quantity-right-plus btn" data-type="plus" data-field="">
+											<i class="icon-plus2"></i>
+										</button>
+									</span>
+									<input type="hidden" name="userid" value="<?php echo $_SESSION['user_id'];?>">
+									<input type="hidden" name="productid" value="<?php echo $productid;?>">
+									<input type="hidden" name="productprice" value="<?php echo $productprice;?>">
+									<input type="hidden" name="productquantity" value="<?php echo $productquantity;?>">
+									<input type="hidden" name="orderstatus" value="yet" >
+									<input type="hidden" name="deliverstatus" value="yet" >
+									<input type="hidden" name="id" value="<?php echo $id;?>">
 								</div>
-							</div>
+								<div class="row">
+									<div class="col-sm-12 text-center">
+										<p class="addtocart"><button type="submit" name="addcart" class="btn btn-primary btn-addtocart"><i class="icon-shopping-cart"></i>
+												Add to Cart</button></p>
+									</div>
+								</div>
 							</form>
 						</div>
 					</div>

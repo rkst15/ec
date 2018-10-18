@@ -108,7 +108,6 @@ session_start();
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                             <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i></div>
                             <select name="status" id="" class="form-control">
-                                <option value="admin">Admin</option>
                                 <option value="user">User</option>
                                 <option value="deliverer">deliverer</option>
                             </select>
@@ -190,6 +189,9 @@ session_start();
                 </div>
             </div>
         </form>
+        <div class="text-center">
+            <a href="login.php">Do you have account already?</a>
+        </div>
     </div>
 </body>
 

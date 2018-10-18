@@ -1,16 +1,29 @@
+<?php
+require_once "classes/Order.php";
+$order = new Order;
+session_start();
+if (!$_SESSION['user_id'] > 0) {
+    header("location:login.php");
+    $_SESSION['username'];
+    $_SESSION['user_id'];
+}
+$id = $_SESSION['user_id'];
+$result = $order->getOrderCart($id);
+?>
 <!DOCTYPE HTML>
 <html>
-	<head>
-	<title>Footwear - Free Bootstrap 4 Template by Colorlib</title>
-   <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!-- Facebook and Twitter integration -->
-	<meta property="og:title" content=""/>
-	<meta property="og:image" content=""/>
-	<meta property="og:url" content=""/>
-	<meta property="og:site_name" content=""/>
-	<meta property="og:description" content=""/>
+<head>
+	<title>Footwear - Free Bootstrap 4 Template by Colorlib</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Facebook and Twitter integration -->
+	<meta property="og:title" content="" />
+	<meta property="og:image" content="" />
+	<meta property="og:url" content="" />
+	<meta property="og:site_name" content="" />
+	<meta property="og:description" content="" />
 	<meta name="twitter:title" content="" />
 	<meta name="twitter:image" content="" />
 	<meta name="twitter:url" content="" />
@@ -18,7 +31,7 @@
 
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Rokkitt:100,300,400,700" rel="stylesheet">
-	
+
 	<!-- Animate.css -->
 	<link rel="stylesheet" href="css/animate.css">
 	<!-- Icomoon Icon Fonts-->
@@ -37,7 +50,7 @@
 	<!-- Owl Carousel -->
 	<link rel="stylesheet" href="css/owl.carousel.min.css">
 	<link rel="stylesheet" href="css/owl.theme.default.min.css">
-	
+
 	<!-- Date Picker -->
 	<link rel="stylesheet" href="css/bootstrap-datepicker.css">
 	<!-- Flaticons  -->
@@ -46,9 +59,10 @@
 	<!-- Theme style  -->
 	<link rel="stylesheet" href="css/style.css">
 
-	</head>
-	<body>
-		
+</head>
+
+<body>
+
 	<div class="colorlib-loader"></div>
 
 	<div id="page">
@@ -60,14 +74,14 @@
 							<div id="colorlib-logo"><a href="index.php">Footwear</a></div>
 						</div>
 						<div class="col-sm-5 col-md-3">
-			            <form action="#" class="search-wrap">
-			               <div class="form-group">
-			                  <input type="search" class="form-control search" placeholder="Search">
-			                  <button class="btn btn-primary submit-search text-center" type="submit"><i class="icon-search"></i></button>
-			               </div>
-			            </form>
-			         </div>
-		         </div>
+							<form action="#" class="search-wrap">
+								<div class="form-group">
+									<input type="search" class="form-control search" placeholder="Search">
+									<button class="btn btn-primary submit-search text-center" type="submit"><i class="icon-search"></i></button>
+								</div>
+							</form>
+						</div>
+					</div>
 					<div class="row">
 						<div class="col-sm-12 text-left menu-1">
 							<ul>
@@ -75,17 +89,14 @@
 								<li class="has-dropdown">
 									<a href="men.php">Men</a>
 									<ul class="dropdown">
-										<li><a href="product-detail.php">Product Detail</a></li>
 										<li><a href="cart.php">Shopping Cart</a></li>
-										<li><a href="checkout.php">Checkout</a></li>
-										<li><a href="order-complete.php">Order Complete</a></li>
 										<li><a href="add-to-wishlist.php">Wishlist</a></li>
 									</ul>
 								</li>
 								<li><a href="women.php">Women</a></li>
 								<li><a href="about.php">About</a></li>
 								<li class="active"><a href="contact.php">Contact</a></li>
-								<li class="cart"><a href="cart.php"><i class="icon-shopping-cart"></i> Cart [0]</a></li>
+								<li class="cart"><a href="cart.php"><i class="icon-shopping-cart"></i> Cart [<?php echo count($result); ?>]</a></li>
 							</ul>
 						</div>
 					</div>
@@ -193,11 +204,11 @@
 										</div>
 									</div>
 								</div>
-							</form>		
+							</form>
 						</div>
 					</div>
 					<div class="col-md-6">
-						<div id="map" class="colorlib-map"></div>		
+						<div id="map" class="colorlib-map"></div>
 					</div>
 				</div>
 			</div>
@@ -269,10 +280,15 @@
 				<div class="row">
 					<div class="col-sm-12 text-center">
 						<p>
-							<span><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></span> 
-							<span class="block">Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a> , <a href="http://pexels.com/" target="_blank">Pexels.com</a></span>
+							<span>
+								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+								Copyright &copy;<script>
+									document.write(new Date().getFullYear());
+								</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a
+								 href="https://colorlib.com" target="_blank">Colorlib</a>
+								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></span>
+							<span class="block">Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a> , <a href="http://pexels.com/"
+								 target="_blank">Pexels.com</a></span>
 						</p>
 					</div>
 				</div>
@@ -283,15 +299,15 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
 	</div>
-	
+
 	<!-- jQuery -->
 	<script src="js/jquery.min.js"></script>
-   <!-- popper -->
-   <script src="js/popper.min.js"></script>
-   <!-- bootstrap 4.1 -->
-   <script src="js/bootstrap.min.js"></script>
-   <!-- jQuery easing -->
-   <script src="js/jquery.easing.1.3.js"></script>
+	<!-- popper -->
+	<script src="js/popper.min.js"></script>
+	<!-- bootstrap 4.1 -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- jQuery easing -->
+	<script src="js/jquery.easing.1.3.js"></script>
 	<!-- Waypoints -->
 	<script src="js/jquery.waypoints.min.js"></script>
 	<!-- Flexslider -->
@@ -311,6 +327,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<!-- Main -->
 	<script src="js/main.js"></script>
 
-	</body>
-</html>
+</body>
 
+</html>

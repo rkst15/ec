@@ -1,13 +1,14 @@
 <?php
 require_once "classes/Order.php";
 $order = new Order;
-$result = $order->getOrderCart();
 session_start();
 if (!$_SESSION['user_id'] > 0) {
     header("location:login.php");
     $_SESSION['username'];
     $_SESSION['user_id'];
 }
+$id = $_SESSION['user_id'];
+$result = $order->getOrderCart($id);
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -74,20 +75,17 @@ if (!$_SESSION['user_id'] > 0) {
 						<div class="col-sm-12 text-left menu-1">
 							<ul>
 								<li><a href="index.php">Home</a></li>
-								<li class="has-dropdown active">
+								<li class="has-dropdown">
 									<a href="men.php">Men</a>
 									<ul class="dropdown">
-										<li><a href="product-detail.php">Product Detail</a></li>
 										<li><a href="cart.php">Shopping Cart</a></li>
-										<li><a href="checkout.php">Checkout</a></li>
-										<li><a href="order-complete.php">Order Complete</a></li>
 										<li><a href="add-to-wishlist.php">Wishlist</a></li>
 									</ul>
 								</li>
 								<li><a href="women.php">Women</a></li>
 								<li><a href="about.php">About</a></li>
 								<li><a href="contact.php">Contact</a></li>
-								<li class="cart"><a href="cart.php"><i class="icon-shopping-cart"></i> Cart [0]</a></li>
+								<li class="cart"><a href="cart.php"><i class="icon-shopping-cart"></i> Cart [<?php echo count($result); ?>]</a></li>
 							</ul>
 						</div>
 					</div>
@@ -171,9 +169,11 @@ if (!$_SESSION['user_id'] > 0) {
 						$subtotal = 0;
                         foreach ($result as $key => $row) {
                             $id = $row['order_id'];
+                            $productid = $row['product_id'];
                             $name = $row['product_name'];
                             $price = $row['order_price'];
 							$quantity = $row['order_quantity'];
+							$productquantity = $row['product_quantity'];
 							$sum = $price * $quantity;
 							$subtotal += $sum;
                             echo "<div class='product-cart d-flex'>";
@@ -201,19 +201,28 @@ if (!$_SESSION['user_id'] > 0) {
                             echo "</div>";
                             echo "<div class='one-eight text-center'>";
                             echo "<form method='post' action='orderAction.php'>";
-							echo "<input type='hidden' name='productquantity' value='$productquantity'";
-							echo "<input type='hidden' name='quantity' value='$quantity'";
-							echo "<button class='closed' type='submit' name='delete'><a class='closed'></a></button>";
+							echo "<input type='hidden' name='productquantity' value='$productquantity'>";
+							echo "<input type='hidden' name='quantity' value='$quantity'>";
+							echo "<input type='hidden' name='id' value='$id'>";
+							echo "<input type='hidden' name='productid' value='$productid'>";
+							echo "<button class='btn btn-primary' type='submit' name='delete'>Remove</button>";
+							echo "</form>";
                             echo "</div>";
                             echo "</div>";
                             echo "</div>";
                            
 						}
                     ?>
-					<div class="text-right">
-					<a href="checkout.php" class="btn btn-outline-success">Go to check out</a>
-					</div>
-						
+						<div class="text-right">
+							<?php
+								if(empty($result)){
+									echo "<a href='cart.php' class='btn btn-outline-success'>Go to check out</a>";
+								}else{
+									echo "<a href='checkout.php' class='btn btn-outline-success'>Go to check out</a>";
+								}
+							?>
+						</div>
+
 						<!-- <div class="product-cart d-flex">
 							<div class="one-forth">
 								<div class="product-img" style="background-image: url(images/item-6.jpg);">
@@ -326,7 +335,7 @@ if (!$_SESSION['user_id'] > 0) {
 								<div class="col-sm-4 text-center">
 									<div class="total">
 										<div class="sub">
-										<?php
+											<?php
 											echo "<p><span>Subtotal:</span> <span>PHP " . $subtotal . "</span></p>";
 											echo "<p><span>Delivery:</span> <span>$0.00</span></p>";
 											echo "</div>";
@@ -341,176 +350,176 @@ if (!$_SESSION['user_id'] > 0) {
 										<div class="grand-total">
 											<p><span><strong>Total:</strong></span> <span>$450.00</span></p>
 										</div> -->
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 
-				<div class="row">
-					<div class="col-sm-8 offset-sm-2 text-center colorlib-heading colorlib-heading-sm">
-						<h2>Related Products</h2>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-3 col-lg-3 mb-4 text-center">
-						<div class="product-entry border">
-							<a href="#" class="prod-img">
-								<img src="images/item-1.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-							</a>
-							<div class="desc">
-								<h2><a href="#">Women's Boots Shoes Maca</a></h2>
-								<span class="price">$139.00</span>
-							</div>
+					<div class="row">
+						<div class="col-sm-8 offset-sm-2 text-center colorlib-heading colorlib-heading-sm">
+							<h2>Related Products</h2>
 						</div>
 					</div>
-					<div class="col-md-3 col-lg-3 mb-4 text-center">
-						<div class="product-entry border">
-							<a href="#" class="prod-img">
-								<img src="images/item-2.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-							</a>
-							<div class="desc">
-								<h2><a href="#">Women's Minam Meaghan</a></h2>
-								<span class="price">$139.00</span>
+					<div class="row">
+						<div class="col-md-3 col-lg-3 mb-4 text-center">
+							<div class="product-entry border">
+								<a href="#" class="prod-img">
+									<img src="images/item-1.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
+								</a>
+								<div class="desc">
+									<h2><a href="#">Women's Boots Shoes Maca</a></h2>
+									<span class="price">$139.00</span>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col-md-3 col-lg-3 mb-4 text-center">
-						<div class="product-entry border">
-							<a href="#" class="prod-img">
-								<img src="images/item-3.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-							</a>
-							<div class="desc">
-								<h2><a href="#">Men's Taja Commissioner</a></h2>
-								<span class="price">$139.00</span>
+						<div class="col-md-3 col-lg-3 mb-4 text-center">
+							<div class="product-entry border">
+								<a href="#" class="prod-img">
+									<img src="images/item-2.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
+								</a>
+								<div class="desc">
+									<h2><a href="#">Women's Minam Meaghan</a></h2>
+									<span class="price">$139.00</span>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col-md-3 col-lg-3 mb-4 text-center">
-						<div class="product-entry border">
-							<a href="#" class="prod-img">
-								<img src="images/item-4.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-							</a>
-							<div class="desc">
-								<h2><a href="#">Russ Men's Sneakers</a></h2>
-								<span class="price">$139.00</span>
+						<div class="col-md-3 col-lg-3 mb-4 text-center">
+							<div class="product-entry border">
+								<a href="#" class="prod-img">
+									<img src="images/item-3.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
+								</a>
+								<div class="desc">
+									<h2><a href="#">Men's Taja Commissioner</a></h2>
+									<span class="price">$139.00</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3 col-lg-3 mb-4 text-center">
+							<div class="product-entry border">
+								<a href="#" class="prod-img">
+									<img src="images/item-4.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
+								</a>
+								<div class="desc">
+									<h2><a href="#">Russ Men's Sneakers</a></h2>
+									<span class="price">$139.00</span>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+
+			<footer id="colorlib-footer" role="contentinfo">
+				<div class="container">
+					<div class="row row-pb-md">
+						<div class="col footer-col colorlib-widget">
+							<h4>About Footwear</h4>
+							<p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life</p>
+							<p>
+								<ul class="colorlib-social-icons">
+									<li><a href="#"><i class="icon-twitter"></i></a></li>
+									<li><a href="#"><i class="icon-facebook"></i></a></li>
+									<li><a href="#"><i class="icon-linkedin"></i></a></li>
+									<li><a href="#"><i class="icon-dribbble"></i></a></li>
+								</ul>
+							</p>
+						</div>
+						<div class="col footer-col colorlib-widget">
+							<h4>Customer Care</h4>
+							<p>
+								<ul class="colorlib-footer-links">
+									<li><a href="#">Contact</a></li>
+									<li><a href="#">Returns/Exchange</a></li>
+									<li><a href="#">Gift Voucher</a></li>
+									<li><a href="#">Wishlist</a></li>
+									<li><a href="#">Special</a></li>
+									<li><a href="#">Customer Services</a></li>
+									<li><a href="#">Site maps</a></li>
+								</ul>
+							</p>
+						</div>
+						<div class="col footer-col colorlib-widget">
+							<h4>Information</h4>
+							<p>
+								<ul class="colorlib-footer-links">
+									<li><a href="#">About us</a></li>
+									<li><a href="#">Delivery Information</a></li>
+									<li><a href="#">Privacy Policy</a></li>
+									<li><a href="#">Support</a></li>
+									<li><a href="#">Order Tracking</a></li>
+								</ul>
+							</p>
+						</div>
+
+						<div class="col footer-col">
+							<h4>News</h4>
+							<ul class="colorlib-footer-links">
+								<li><a href="blog.php">Blog</a></li>
+								<li><a href="#">Press</a></li>
+								<li><a href="#">Exhibitions</a></li>
+							</ul>
+						</div>
+
+						<div class="col footer-col">
+							<h4>Contact Information</h4>
+							<ul class="colorlib-footer-links">
+								<li>291 South 21th Street, <br> Suite 721 New York NY 10016</li>
+								<li><a href="tel://1234567920">+ 1235 2355 98</a></li>
+								<li><a href="mailto:info@yoursite.com">info@yoursite.com</a></li>
+								<li><a href="#">yoursite.com</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="copy">
+					<div class="row">
+						<div class="col-sm-12 text-center">
+							<p>
+								<span>
+									<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+									Copyright &copy;<script>
+										document.write(new Date().getFullYear());
+									</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a
+									 href="https://colorlib.com" target="_blank">Colorlib</a>
+									<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></span>
+								<span class="block">Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a> , <a href="http://pexels.com/"
+									 target="_blank">Pexels.com</a></span>
+							</p>
+						</div>
+					</div>
+				</div>
+			</footer>
 		</div>
 
-		<footer id="colorlib-footer" role="contentinfo">
-			<div class="container">
-				<div class="row row-pb-md">
-					<div class="col footer-col colorlib-widget">
-						<h4>About Footwear</h4>
-						<p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life</p>
-						<p>
-							<ul class="colorlib-social-icons">
-								<li><a href="#"><i class="icon-twitter"></i></a></li>
-								<li><a href="#"><i class="icon-facebook"></i></a></li>
-								<li><a href="#"><i class="icon-linkedin"></i></a></li>
-								<li><a href="#"><i class="icon-dribbble"></i></a></li>
-							</ul>
-						</p>
-					</div>
-					<div class="col footer-col colorlib-widget">
-						<h4>Customer Care</h4>
-						<p>
-							<ul class="colorlib-footer-links">
-								<li><a href="#">Contact</a></li>
-								<li><a href="#">Returns/Exchange</a></li>
-								<li><a href="#">Gift Voucher</a></li>
-								<li><a href="#">Wishlist</a></li>
-								<li><a href="#">Special</a></li>
-								<li><a href="#">Customer Services</a></li>
-								<li><a href="#">Site maps</a></li>
-							</ul>
-						</p>
-					</div>
-					<div class="col footer-col colorlib-widget">
-						<h4>Information</h4>
-						<p>
-							<ul class="colorlib-footer-links">
-								<li><a href="#">About us</a></li>
-								<li><a href="#">Delivery Information</a></li>
-								<li><a href="#">Privacy Policy</a></li>
-								<li><a href="#">Support</a></li>
-								<li><a href="#">Order Tracking</a></li>
-							</ul>
-						</p>
-					</div>
+		<div class="gototop js-top">
+			<a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
+		</div>
 
-					<div class="col footer-col">
-						<h4>News</h4>
-						<ul class="colorlib-footer-links">
-							<li><a href="blog.php">Blog</a></li>
-							<li><a href="#">Press</a></li>
-							<li><a href="#">Exhibitions</a></li>
-						</ul>
-					</div>
-
-					<div class="col footer-col">
-						<h4>Contact Information</h4>
-						<ul class="colorlib-footer-links">
-							<li>291 South 21th Street, <br> Suite 721 New York NY 10016</li>
-							<li><a href="tel://1234567920">+ 1235 2355 98</a></li>
-							<li><a href="mailto:info@yoursite.com">info@yoursite.com</a></li>
-							<li><a href="#">yoursite.com</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="copy">
-				<div class="row">
-					<div class="col-sm-12 text-center">
-						<p>
-							<span>
-								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-								Copyright &copy;<script>
-									document.write(new Date().getFullYear());
-								</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a
-								 href="https://colorlib.com" target="_blank">Colorlib</a>
-								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></span>
-							<span class="block">Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a> , <a href="http://pexels.com/"
-								 target="_blank">Pexels.com</a></span>
-						</p>
-					</div>
-				</div>
-			</div>
-		</footer>
-	</div>
-
-	<div class="gototop js-top">
-		<a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
-	</div>
-
-	<!-- jQuery -->
-	<script src="js/jquery.min.js"></script>
-	<!-- popper -->
-	<script src="js/popper.min.js"></script>
-	<!-- bootstrap 4.1 -->
-	<script src="js/bootstrap.min.js"></script>
-	<!-- jQuery easing -->
-	<script src="js/jquery.easing.1.3.js"></script>
-	<!-- Waypoints -->
-	<script src="js/jquery.waypoints.min.js"></script>
-	<!-- Flexslider -->
-	<script src="js/jquery.flexslider-min.js"></script>
-	<!-- Owl carousel -->
-	<script src="js/owl.carousel.min.js"></script>
-	<!-- Magnific Popup -->
-	<script src="js/jquery.magnific-popup.min.js"></script>
-	<script src="js/magnific-popup-options.js"></script>
-	<!-- Date Picker -->
-	<script src="js/bootstrap-datepicker.js"></script>
-	<!-- Stellar Parallax -->
-	<script src="js/jquery.stellar.min.js"></script>
-	<!-- Main -->
-	<script src="js/main.js"></script>
+		<!-- jQuery -->
+		<script src="js/jquery.min.js"></script>
+		<!-- popper -->
+		<script src="js/popper.min.js"></script>
+		<!-- bootstrap 4.1 -->
+		<script src="js/bootstrap.min.js"></script>
+		<!-- jQuery easing -->
+		<script src="js/jquery.easing.1.3.js"></script>
+		<!-- Waypoints -->
+		<script src="js/jquery.waypoints.min.js"></script>
+		<!-- Flexslider -->
+		<script src="js/jquery.flexslider-min.js"></script>
+		<!-- Owl carousel -->
+		<script src="js/owl.carousel.min.js"></script>
+		<!-- Magnific Popup -->
+		<script src="js/jquery.magnific-popup.min.js"></script>
+		<script src="js/magnific-popup-options.js"></script>
+		<!-- Date Picker -->
+		<script src="js/bootstrap-datepicker.js"></script>
+		<!-- Stellar Parallax -->
+		<script src="js/jquery.stellar.min.js"></script>
+		<!-- Main -->
+		<script src="js/main.js"></script>
 
 </body>
 
