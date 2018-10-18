@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: 2018 年 10 月 17 日 06:53
+-- Generation Time: 2018 年 10 月 18 日 06:55
 -- サーバのバージョン： 10.1.34-MariaDB
 -- PHP Version: 5.6.37
 
@@ -46,6 +46,26 @@ INSERT INTO `category` (`category_id`, `user_id`, `category_name`, `category_sta
 -- --------------------------------------------------------
 
 --
+-- テーブルの構造 `images`
+--
+
+CREATE TABLE `images` (
+  `image_id` int(50) NOT NULL,
+  `product_id` int(50) NOT NULL,
+  `image_1` text COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- テーブルのデータのダンプ `images`
+--
+
+INSERT INTO `images` (`image_id`, `product_id`, `image_1`) VALUES
+(3, 11, '../images/products/2018_10_18_item-13.jpg'),
+(4, 12, '../images/products/2018_10_18_item-10.jpg');
+
+-- --------------------------------------------------------
+
+--
 -- テーブルの構造 `orders`
 --
 
@@ -68,7 +88,9 @@ INSERT INTO `orders` (`order_id`, `user_id`, `product_id`, `order_price`, `order
 (21, 2, 1, 500, 2, 'done', 'done', 'japan'),
 (22, 2, 3, 200, 1, 'done', 'done', 'usa'),
 (24, 2, 3, 200, 1, 'done', 'done', 'usa'),
-(26, 2, 5, 350, 1, 'yet', 'yet', '');
+(29, 2, 1, 500, 3, 'done', 'yet', 'usa'),
+(30, 2, 3, 200, 2, 'done', 'yet', 'usa'),
+(32, 7, 5, 350, 1, 'done', 'done', 'usa');
 
 -- --------------------------------------------------------
 
@@ -90,9 +112,8 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`product_id`, `user_id`, `category_id`, `product_name`, `product_price`, `product_quantity`) VALUES
-(1, 1, 23, 'Nike Air-max', 500, 8),
-(3, 1, 25, 'sandals', 200, 9),
-(5, 6, 23, 'Football shoes', 350, 9);
+(11, 1, 23, 'Nike Air-max', 300, 10),
+(12, 1, 25, 'Sandals', 200, 10);
 
 -- --------------------------------------------------------
 
@@ -118,7 +139,8 @@ INSERT INTO `users` (`user_id`, `username`, `email`, `firstname`, `lastname`, `p
 (1, 'ryohei15', 'ryohei@mail.com', 'Ryohei', 'Kita', '9bf31c7ff062936a96d3c8bd1f8f2ff3', 'admin'),
 (2, 'koji15', 'koji@mail.com', 'Koji', 'Kita', '9bf31c7ff062936a96d3c8bd1f8f2ff3', 'user'),
 (4, 'richard15', 'richard@email.com', 'richard', 'real', '9bf31c7ff062936a96d3c8bd1f8f2ff3', 'user'),
-(6, 'shinobu15', 'shinobu@mail.com', 'Shinobu', 'Kita', '9bf31c7ff062936a96d3c8bd1f8f2ff3', 'deliverer');
+(6, 'shinobu15', 'shinobu@mail.com', 'Shinobu', 'Kita', '9bf31c7ff062936a96d3c8bd1f8f2ff3', 'deliverer'),
+(7, 'ryohei615', 'dsd@gg.com', 'Ryohei', 'Kita', '9bf31c7ff062936a96d3c8bd1f8f2ff3', 'user');
 
 --
 -- Indexes for dumped tables
@@ -130,6 +152,12 @@ INSERT INTO `users` (`user_id`, `username`, `email`, `firstname`, `lastname`, `p
 ALTER TABLE `category`
   ADD PRIMARY KEY (`category_id`),
   ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `images`
+--
+ALTER TABLE `images`
+  ADD PRIMARY KEY (`image_id`);
 
 --
 -- Indexes for table `orders`
@@ -164,22 +192,28 @@ ALTER TABLE `category`
   MODIFY `category_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
+-- AUTO_INCREMENT for table `images`
+--
+ALTER TABLE `images`
+  MODIFY `image_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `order_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `product_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `user_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- ダンプしたテーブルの制約
